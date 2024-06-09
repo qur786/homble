@@ -10,6 +10,7 @@ import { useFetcher } from "../hooks/useFetcher";
 
 export function Products() {
   const [openModal, setOpenModal] = useState(false);
+  const [sortedProducts, setSortedProducts] = useState([]);
 
   const { makeRequest, output: products } = useFetcher("get");
 
@@ -25,6 +26,13 @@ export function Products() {
     makeRequest({ url: "/products" });
   }, [makeRequest]);
 
+  useEffect(() => {
+    const sorted = [...(products ?? [])]?.toSorted(
+      (a, b) => a.selling_price - b.selling_price,
+    );
+    setSortedProducts(sorted);
+  }, [products]);
+
   return (
     <Container>
       <Row>
@@ -36,7 +44,7 @@ export function Products() {
         </Col>
       </Row>
       <Row xs={1} md={2} lg={3} className="g-4 p-4">
-        {products?.map((ele) => (
+        {sortedProducts?.map((ele) => (
           <Col key={ele.id}>
             <ProductCard {...ele} />
           </Col>
