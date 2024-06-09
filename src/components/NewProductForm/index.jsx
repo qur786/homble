@@ -70,7 +70,7 @@ export function NewProductForm({ onSubmit }) {
             aria-hidden="true"
           />
         ) : undefined}
-        Submit
+        Add
       </Button>
     </Form>
   );
