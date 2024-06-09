@@ -13,6 +13,13 @@ export function Dashboard() {
     setSearchText(event.target.value);
   };
 
+  const handleCheckboxChange = (event) => {
+    setFileteredProducts((prev) =>
+      prev.filter((ele) => ele.id !== event.target.id),
+    );
+    // TODO: fix
+  };
+
   useEffect(() => {
     makeRequest({ url: "/dashboard" });
   }, [makeRequest]);
@@ -57,7 +64,11 @@ export function Dashboard() {
           {fileteredProducts?.map(({ id, name, selling_price }) => (
             <tr key={id}>
               <td className="text-center">
-                <Form.Check type="checkbox" id={`check-${id}`} />
+                <Form.Check
+                  type="checkbox"
+                  id={id}
+                  onChange={handleCheckboxChange}
+                />
               </td>
               <td>{id}</td>
               <td>{name}</td>
