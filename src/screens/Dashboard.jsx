@@ -1,13 +1,20 @@
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
-import { Container } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 import { useFetcher } from "../hooks/useFetcher";
 import { useEffect, useState } from "react";
+import { sortProducts } from "./utils";
 
 export function Dashboard() {
   const [searchText, setSearchText] = useState("");
   const [fileteredProducts, setFileteredProducts] = useState([]);
   const [tableProducts, setTableProducts] = useState([]);
+  const [sortDirections, setSortDirections] = useState({
+    id: "asc",
+    name: "asc",
+    selling_price: "asc",
+  });
   const { makeRequest, output: products } = useFetcher("get");
 
   const handleSearchChange = (event) => {
@@ -15,9 +22,18 @@ export function Dashboard() {
   };
 
   const handleCheckboxChange = (event) => {
-    setTableProducts((prev) =>
-      prev.filter((ele) => ele.id !== event.target.id),
-    );
+    const id = event.target.getAttribute("data-id") ?? "";
+    setTableProducts((prev) => prev.filter((ele) => ele.id !== id));
+  };
+
+  const handleSortClick = (event) => {
+    const key = event.target.getAttribute("data-id") ?? "";
+    if (key in sortDirections) {
+      setSortDirections((prev) => ({
+        ...prev,
+        [key]: prev[key] === "asc" ? "desc" : "asc",
+      }));
+    }
   };
 
   useEffect(() => {
@@ -25,7 +41,7 @@ export function Dashboard() {
   }, [makeRequest]);
 
   useEffect(() => {
-    setTableProducts(products);
+    setTableProducts(products ?? []);
   }, [products]);
 
   useEffect(() => {
@@ -41,6 +57,42 @@ export function Dashboard() {
       clearTimeout(timeID);
     };
   }, [tableProducts, searchText]);
+
+  useEffect(() => {
+    const timeID = setTimeout(() => {
+      setFileteredProducts((prev) =>
+        sortProducts(prev, "id", sortDirections.id),
+      );
+    }, 500); // Debouncing
+
+    return () => {
+      clearTimeout(timeID);
+    };
+  }, [sortDirections.id]);
+
+  useEffect(() => {
+    const timeID = setTimeout(() => {
+      setFileteredProducts((prev) =>
+        sortProducts(prev, "name", sortDirections.name),
+      );
+    }, 500); // Debouncing
+
+    return () => {
+      clearTimeout(timeID);
+    };
+  }, [sortDirections.name]);
+
+  useEffect(() => {
+    const timeID = setTimeout(() => {
+      setFileteredProducts((prev) =>
+        sortProducts(prev, "selling_price", sortDirections.selling_price),
+      );
+    }, 500); // Debouncing
+
+    return () => {
+      clearTimeout(timeID);
+    };
+  }, [sortDirections.selling_price]);
 
   return (
     <Container>
@@ -59,9 +111,38 @@ export function Dashboard() {
         <thead>
           <tr>
             <th></th>
-            <th>ID</th>
-            <th>Product Name</th>
-            <th>Selling Price</th>
+            <th>
+              <div className="d-flex justify-content-between align-items-center">
+                ID{" "}
+                <Button variant="light" data-id="id" onClick={handleSortClick}>
+                  {sortDirections.id === "desc" ? "↓" : "↑"}
+                </Button>
+              </div>
+            </th>
+            <th>
+              <div className="d-flex justify-content-between align-items-center">
+                Product Name{" "}
+                <Button
+                  variant="light"
+                  data-id="name"
+                  onClick={handleSortClick}
+                >
+                  {sortDirections.name === "desc" ? "↓" : "↑"}
+                </Button>
+              </div>
+            </th>
+            <th>
+              <div className="d-flex justify-content-between align-items-center">
+                Selling Price{" "}
+                <Button
+                  variant="light"
+                  data-id="selling_price"
+                  onClick={handleSortClick}
+                >
+                  {sortDirections.selling_price === "desc" ? "↓" : "↑"}
+                </Button>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -70,7 +151,7 @@ export function Dashboard() {
               <td className="text-center">
                 <Form.Check
                   type="checkbox"
-                  id={id}
+                  data-id={id}
                   onChange={handleCheckboxChange}
                 />
               </td>
