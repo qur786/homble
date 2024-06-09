@@ -8,7 +8,7 @@ import { Dashboard } from "./screens/Dashboard";
 
 const AppRouter = () => {
   return (
-    <BrowserRouter basename="/homble">
+    <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
