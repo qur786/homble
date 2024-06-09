@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import { ProductModal } from "../components/ProductModal";
 import { useFetcher } from "../hooks/useFetcher";
 import { DemoProduct } from "./utils";
+import { UnavailableData } from "../components/UnavailableData";
 
 export function Products() {
   const [openModal, setOpenModal] = useState(false);
@@ -48,13 +49,17 @@ export function Products() {
           </Button>
         </Col>
       </Row>
-      <Row xs={1} md={2} lg={3} className="g-4 p-4">
-        {sortedProducts.map((ele) => (
-          <Col key={ele.id}>
-            <ProductCard {...ele} fullDetailes={false} loading={loading} />
-          </Col>
-        ))}
-      </Row>
+      {loading || (Array.isArray(products) && products.length > 0) ? (
+        <Row xs={1} md={2} lg={3} className="g-4 p-4">
+          {sortedProducts.map((ele) => (
+            <Col key={ele.id}>
+              <ProductCard {...ele} fullDetailes={false} loading={loading} />
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <UnavailableData />
+      )}
       <ProductModal
         open={openModal}
         showModal={showModal}

@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useFetcher } from "../hooks/useFetcher";
 import { ProductCard } from "../components/ProductCard";
 import { DemoProduct } from "./utils";
+import { UnavailableData } from "../components/UnavailableData";
 
 export function Product() {
   const { id } = useParams();
@@ -21,15 +22,19 @@ export function Product() {
       <h6 className="text-primary text-center font-weight-bold text-lg h4 mt-4">
         Product {id}
       </h6>
-      <Row>
-        <Col className="mt-4">
-          <ProductCard
-            loading={loading}
-            {...(product ?? DemoProduct)}
-            fullDetailes
-          />
-        </Col>
-      </Row>
+      {loading || product ? (
+        <Row>
+          <Col className="mt-4">
+            <ProductCard
+              loading={loading}
+              {...(product ?? DemoProduct)}
+              fullDetailes
+            />
+          </Col>
+        </Row>
+      ) : (
+        <UnavailableData />
+      )}
     </Container>
   );
 }
