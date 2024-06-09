@@ -6,6 +6,7 @@ import { useFetcher } from "../hooks/useFetcher";
 import { useEffect, useState } from "react";
 import { sortProducts } from "./utils";
 import { UnavailableData } from "../components/UnavailableData";
+import { ProductTableSkeleton } from "../components/ProductTableSkeleton";
 
 export function Dashboard() {
   const [searchText, setSearchText] = useState("");
@@ -110,65 +111,69 @@ export function Dashboard() {
               onChange={handleSearchChange}
             />
           </Form.Group>
-          <Table responsive striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th></th>
-                <th>
-                  <div className="d-flex justify-content-between align-items-center">
-                    ID{" "}
-                    <Button
-                      variant="light"
-                      data-id="id"
-                      onClick={handleSortClick}
-                    >
-                      {sortDirections.id === "desc" ? "↓" : "↑"}
-                    </Button>
-                  </div>
-                </th>
-                <th>
-                  <div className="d-flex justify-content-between align-items-center">
-                    Product Name{" "}
-                    <Button
-                      variant="light"
-                      data-id="name"
-                      onClick={handleSortClick}
-                    >
-                      {sortDirections.name === "desc" ? "↓" : "↑"}
-                    </Button>
-                  </div>
-                </th>
-                <th>
-                  <div className="d-flex justify-content-between align-items-center">
-                    Selling Price{" "}
-                    <Button
-                      variant="light"
-                      data-id="selling_price"
-                      onClick={handleSortClick}
-                    >
-                      {sortDirections.selling_price === "desc" ? "↓" : "↑"}
-                    </Button>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {fileteredProducts?.map(({ id, name, selling_price }) => (
-                <tr key={id}>
-                  <td className="text-center">
-                    <Form.Check
-                      type="checkbox"
-                      data-id={id}
-                      onChange={handleCheckboxChange}
-                    />
-                  </td>
-                  <td>{id}</td>
-                  <td>{name}</td>
-                  <td>{selling_price}</td>
+          {loading ? (
+            <ProductTableSkeleton />
+          ) : (
+            <Table responsive striped bordered hover size="sm">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>
+                    <div className="d-flex justify-content-between align-items-center">
+                      ID{" "}
+                      <Button
+                        variant="light"
+                        data-id="id"
+                        onClick={handleSortClick}
+                      >
+                        {sortDirections.id === "desc" ? "↓" : "↑"}
+                      </Button>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="d-flex justify-content-between align-items-center">
+                      Product Name{" "}
+                      <Button
+                        variant="light"
+                        data-id="name"
+                        onClick={handleSortClick}
+                      >
+                        {sortDirections.name === "desc" ? "↓" : "↑"}
+                      </Button>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="d-flex justify-content-between align-items-center">
+                      Selling Price{" "}
+                      <Button
+                        variant="light"
+                        data-id="selling_price"
+                        onClick={handleSortClick}
+                      >
+                        {sortDirections.selling_price === "desc" ? "↓" : "↑"}
+                      </Button>
+                    </div>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {fileteredProducts?.map(({ id, name, selling_price }) => (
+                  <tr key={id}>
+                    <td className="text-center">
+                      <Form.Check
+                        type="checkbox"
+                        data-id={id}
+                        onChange={handleCheckboxChange}
+                      />
+                    </td>
+                    <td>{id}</td>
+                    <td>{name}</td>
+                    <td>{selling_price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </>
       ) : (
         <UnavailableData />
