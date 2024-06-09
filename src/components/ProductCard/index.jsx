@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import "../../types";
-import { ProductCardSkeleton } from "./ProductCardSkeleton";
+import { ProductCardSkeleton } from "../ProductCardSkeleton";
 
 /**
  * @param {Product & { fullDetailes: boolean; loading: boolean; }}

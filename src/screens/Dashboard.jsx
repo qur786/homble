@@ -4,7 +4,6 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useFetcher } from "../hooks/useFetcher";
 import { useEffect, useState } from "react";
-import { sortProducts } from "./utils";
 import { UnavailableData } from "../components/UnavailableData";
 import { ProductTableSkeleton } from "../components/ProductTableSkeleton";
 
@@ -62,8 +61,15 @@ export function Dashboard() {
 
   useEffect(() => {
     const timeID = setTimeout(() => {
-      setFileteredProducts((prev) =>
-        sortProducts(prev, "id", sortDirections.id),
+      setFileteredProducts(
+        (prev) =>
+          sortDirections.id === "asc"
+            ? prev.toSorted(
+                (a, b) => Number.parseInt(a.id) - Number.parseInt(b.id),
+              ) // Since id are numbers in string format
+            : prev.toSorted(
+                (a, b) => Number.parseInt(b.id) - Number.parseInt(a.id),
+              ), // Since id are numbers in string format
       );
     }, 500); // Debouncing
 
@@ -75,7 +81,9 @@ export function Dashboard() {
   useEffect(() => {
     const timeID = setTimeout(() => {
       setFileteredProducts((prev) =>
-        sortProducts(prev, "name", sortDirections.name),
+        sortDirections.name === "asc"
+          ? prev.toSorted((a, b) => (a.name > b.name ? 1 : -1))
+          : prev.toSorted((a, b) => (b.name > a.name ? 1 : -1)),
       );
     }, 500); // Debouncing
 
@@ -87,7 +95,9 @@ export function Dashboard() {
   useEffect(() => {
     const timeID = setTimeout(() => {
       setFileteredProducts((prev) =>
-        sortProducts(prev, "selling_price", sortDirections.selling_price),
+        sortDirections.selling_price === "asc"
+          ? prev.toSorted((a, b) => a.selling_price - b.selling_price)
+          : prev.toSorted((a, b) => b.selling_price - a.selling_price),
       );
     }, 500); // Debouncing
 
