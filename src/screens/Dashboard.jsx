@@ -47,6 +47,7 @@ export function Dashboard() {
       <Table responsive striped bordered hover size="sm">
         <thead>
           <tr>
+            <th></th>
             <th>ID</th>
             <th>Product Name</th>
             <th>Selling Price</th>
@@ -55,6 +56,9 @@ export function Dashboard() {
         <tbody>
           {fileteredProducts?.map(({ id, name, selling_price }) => (
             <tr key={id}>
+              <td className="text-center">
+                <Form.Check type="checkbox" id={`check-${id}`} />
+              </td>
               <td>{id}</td>
               <td>{name}</td>
               <td>{selling_price}</td>
