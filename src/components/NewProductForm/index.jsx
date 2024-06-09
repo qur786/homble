@@ -1,29 +1,21 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
-import { postRequest } from "../../axios";
-import { useState } from "react";
 import "../../types";
+import { useFetcher } from "../../hooks/useFetcher";
 
 /**
  * @param {NewProductFormProps} props
  */
 export function NewProductForm({ onSubmit }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { loading: isSubmitting, makeRequest } = useFetcher("post", onSubmit);
   /**
    * @type import("react").FormEventHandler<HTMLFormElement>
    */
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsSubmitting(true);
     const form = new FormData(event.target);
-    postRequest("/products", form)
-      .then(console.log)
-      .catch(console.log)
-      .finally(() => {
-        setIsSubmitting(false);
-        onSubmit?.();
-      });
+    makeRequest({ url: "/products", data: form });
   };
 
   return (

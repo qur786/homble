@@ -41,3 +41,21 @@
  * @typedef {object} NewProductFormProps
  * @property {OnSubmit|undefined} onSubmit
  */
+
+/**
+ * @typedef {object} MakeRequestArgs
+ * @property {string} url
+ * @property {import("axios").AxiosRequestConfig["params"]} [params={}]
+ * @property {import("axios").AxiosRequestConfig["responseType"]} [responseType="json"]
+ * @property {import("axios").AxiosRequestConfig["data"]} data
+ * @property {any} options
+ *
+ * @callback MakeRequestArgs
+ * @property {MakeRequestArgs} args0
+ * @returns {void}
+ *
+ * @callback UseFetcher
+ * @param {"post" | "get"} method
+ * @param {() => void | undefined} finallyCallback
+ * @returns {{ makeRequest: (args: MakeRequestArgs) => void; loading: boolean; data: any; }}
+ */
