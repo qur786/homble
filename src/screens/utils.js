@@ -1,6 +1,7 @@
 import "../types";
 
 /**
+ * Demo product data
  * @type {Product}
  */
 export const DemoProduct = {

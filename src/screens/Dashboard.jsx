@@ -66,10 +66,10 @@ export function Dashboard() {
           sortDirections.id === "asc"
             ? prev.toSorted(
                 (a, b) => Number.parseInt(a.id) - Number.parseInt(b.id),
-              ) // Since id are numbers in string format
+              ) // Since id is a number in string format
             : prev.toSorted(
                 (a, b) => Number.parseInt(b.id) - Number.parseInt(a.id),
-              ), // Since id are numbers in string format
+              ), // Since id is a number in string format
       );
     }, 500); // Debouncing
 

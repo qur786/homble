@@ -1,4 +1,9 @@
 /**
+ * This file contains the JSDoc typescript types used for adding types for some places to have better
+ * code readability and debugging.
+ */
+
+/**
  * {
  *  "name": "Masala Chai Tea Bags",
  *  "id": "1",
