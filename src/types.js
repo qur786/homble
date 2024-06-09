@@ -22,14 +22,22 @@
  */
 
 /**
- * @callback {Function} ShowModal
+ * @callback ShowModal
  * @return   {void}
  *
- * @callback {Function} CloseModal
+ * @callback CloseModal
  * @return   {void}
  *
  * @typedef {object} ProductModalProps
  * @property {boolean} open
  * @property {ShowModal} showModal
  * @property {CloseModal} closeModal
+ */
+
+/**
+ * @callback OnSubmit
+ * @return {void}
+ *
+ * @typedef {object} NewProductFormProps
+ * @property {OnSubmit|undefined} onSubmit
  */
