@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./screens/Home";
 import { Header } from "./components/Header";
+import { Products } from "./screens/Products";
 
 const AppRouter = () => {
   return (
@@ -9,6 +10,7 @@ const AppRouter = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
       </Routes>
     </BrowserRouter>
   );
