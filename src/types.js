@@ -20,3 +20,16 @@
  * @property {string} cooking_instruction
  * @property {string} productImage
  */
+
+/**
+ * @callback {Function} ShowModal
+ * @return   {void}
+ *
+ * @callback {Function} CloseModal
+ * @return   {void}
+ *
+ * @typedef {object} ProductModalProps
+ * @property {boolean} open
+ * @property {ShowModal} showModal
+ * @property {CloseModal} closeModal
+ */
