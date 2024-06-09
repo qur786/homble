@@ -1,14 +1,16 @@
 import { useState, useCallback } from "react";
 import "../types";
 import { getRequest, postRequest } from "../axios";
+import { useSnackbar } from "notistack";
 
 /**
  * @type {UseFetcher}
  */
 export function useFetcher(method, finallyCallback) {
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState(null);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const makeRequest = useCallback(
     ({ url, data, options, params, responseType }) => {
@@ -16,11 +18,15 @@ export function useFetcher(method, finallyCallback) {
       if (method === "post") {
         postRequest(url, data, options)
           .then((output) => {
-            setError(null);
             setOutput(output);
+            enqueueSnackbar("Successfully created resource(s).", {
+              variant: "success",
+            });
           })
           .catch(() => {
-            setError("Something went wrong!.");
+            enqueueSnackbar("Something went wrong!", {
+              variant: "error",
+            });
           })
           .finally(() => {
             setLoading(false);
@@ -29,11 +35,15 @@ export function useFetcher(method, finallyCallback) {
       } else {
         getRequest(url, params, responseType)
           .then((output) => {
-            setError(null);
             setOutput(output.data);
+            enqueueSnackbar("Successfully fetched resource(s).", {
+              variant: "success",
+            });
           })
           .catch(() => {
-            setError("Something went wrong!.");
+            enqueueSnackbar("Something went wrong!", {
+              variant: "error",
+            });
           })
           .finally(() => {
             setLoading(false);
@@ -41,8 +51,8 @@ export function useFetcher(method, finallyCallback) {
           });
       }
     },
-    [finallyCallback, method],
+    [enqueueSnackbar, finallyCallback, method],
   );
 
-  return { makeRequest, error, output, loading };
+  return { makeRequest, output, loading };
 }

@@ -57,5 +57,5 @@
  * @callback UseFetcher
  * @param {"post" | "get"} method
  * @param {() => void | undefined} finallyCallback
- * @returns {{ makeRequest: (args: MakeRequestArgs) => void; loading: boolean; error: string | null; data: any; }}
+ * @returns {{ makeRequest: (args: MakeRequestArgs) => void; loading: boolean; data: any; }}
  */
