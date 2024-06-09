@@ -12,7 +12,9 @@ import { DemoProduct } from "./utils";
 export function Products() {
   const [openModal, setOpenModal] = useState(false);
   const [sortedProducts, setSortedProducts] = useState(
-    new Array(10).fill(DemoProduct),
+    new Array(10).fill().map((_, idx) => {
+      return { ...DemoProduct, id: idx };
+    }),
   );
 
   const { makeRequest, output: products, loading } = useFetcher("get");
