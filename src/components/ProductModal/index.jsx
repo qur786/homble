@@ -12,7 +12,7 @@ export function ProductModal({ open, closeModal }) {
         <Modal.Title>New Product</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <NewProductForm />
+        <NewProductForm onSubmit={closeModal} />
       </Modal.Body>
     </Modal>
   );
