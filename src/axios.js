@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //GET - get all products - /products
-//GET - get product by ud - /products/:id
+//GET - get product by id - /products/:id
 //POST - create product - /products - Content Type - "application/json"
 //GET - get dashboard data - /dashboard
 
