@@ -14,8 +14,15 @@ export function Products() {
   useEffect(() => {
     getRequest("/products")
       .then((data) => {
+        /**
+         * @type {Product[]}
+         */
         const output = data.data;
-        setProducts(output);
+        const sortedOutput = output.sort(
+          (a, b) => a.selling_price - b.selling_price,
+        );
+        console.log(sortedOutput);
+        setProducts(sortedOutput);
       })
       .catch(console.log);
   }, []);
