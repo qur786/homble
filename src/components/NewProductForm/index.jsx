@@ -1,22 +1,27 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Spinner from "react-bootstrap/Spinner";
 import { postRequest } from "../../axios";
+import { useState } from "react";
 import "../../types";
 
 /**
  * @param {NewProductFormProps} props
  */
 export function NewProductForm({ onSubmit }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   /**
    * @type import("react").FormEventHandler<HTMLFormElement>
    */
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
     const form = new FormData(event.target);
     postRequest("/products", form)
       .then(console.log)
       .catch(console.log)
       .finally(() => {
+        setIsSubmitting(false);
         onSubmit?.();
       });
   };
@@ -56,6 +61,15 @@ export function NewProductForm({ onSubmit }) {
       </Form.Group>
 
       <Button variant="primary" type="submit">
+        {isSubmitting ? (
+          <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+          />
+        ) : undefined}
         Submit
       </Button>
     </Form>
