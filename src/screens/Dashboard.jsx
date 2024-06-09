@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export function Dashboard() {
   const [searchText, setSearchText] = useState("");
   const [fileteredProducts, setFileteredProducts] = useState([]);
+  const [tableProducts, setTableProducts] = useState([]);
   const { makeRequest, output: products } = useFetcher("get");
 
   const handleSearchChange = (event) => {
@@ -14,10 +15,9 @@ export function Dashboard() {
   };
 
   const handleCheckboxChange = (event) => {
-    setFileteredProducts((prev) =>
+    setTableProducts((prev) =>
       prev.filter((ele) => ele.id !== event.target.id),
     );
-    // TODO: fix
   };
 
   useEffect(() => {
@@ -25,9 +25,13 @@ export function Dashboard() {
   }, [makeRequest]);
 
   useEffect(() => {
+    setTableProducts(products);
+  }, [products]);
+
+  useEffect(() => {
     const timeID = setTimeout(() => {
       const regex = new RegExp(searchText, "i");
-      const filetered = [...(products ?? [])].filter(
+      const filetered = [...(tableProducts ?? [])].filter(
         (ele) => ele.id.search(regex) !== -1 || ele.name.search(regex) !== -1,
       );
       setFileteredProducts(filetered);
@@ -36,7 +40,7 @@ export function Dashboard() {
     return () => {
       clearTimeout(timeID);
     };
-  }, [products, searchText]);
+  }, [tableProducts, searchText]);
 
   return (
     <Container>
