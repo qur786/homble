@@ -24,7 +24,7 @@ export function NewProductForm({ onSubmit }) {
         <Form.Label>Product Name</Form.Label>
         <Form.Control
           type="text"
-          name="product-name"
+          name="name"
           placeholder="Enter name"
           required
         />
@@ -34,7 +34,7 @@ export function NewProductForm({ onSubmit }) {
         <Form.Label>Product Description</Form.Label>
         <Form.Control
           as="textarea"
-          name="product-description"
+          name="description"
           rows={3}
           placeholder="Enter description"
           required
@@ -45,7 +45,7 @@ export function NewProductForm({ onSubmit }) {
         <Form.Label>Product Allergen Info</Form.Label>
         <Form.Control
           as="textarea"
-          name="product-allergen"
+          name="allergen_info"
           rows={3}
           placeholder="Enter allergen"
           required
